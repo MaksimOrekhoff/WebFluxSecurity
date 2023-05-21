@@ -3,11 +3,20 @@ server:
 
 spring:
   r2dbc:
-    url: r2dbc:pool:postgres://localhost:5432/proselyte_webflux_security
+    url: r2dbc:pool:postgres://localhost:5432/webflux_security
     username: developer
     password: java
   flyway:
-    url: jdbc:postgresql://localhost:5432/proselyte_webflux_security
+    url: jdbc:postgresql://localhost:5432/webflux_security
     locations: classpath:db/migration
     user: ${spring.r2dbc.username}
     password: ${spring.r2dbc.password}
+jwt:
+  password:
+    encoder:
+      secret: FZK2Z821fyG_7EhFMbfAkl+nJLyGWAgbFSfdVBX43g
+      iteration: 64
+      keylength: 256
+  secret: 1u45piu44263j5tj052xdrcftv7gybh5unjm4kqg0fj054jmjqfinpgthbo
+  expiration: 3600
+  issuer: orekhoff
