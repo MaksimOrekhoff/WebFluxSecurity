@@ -2,7 +2,7 @@ package com.orekhov.webfluxsecurity.security;
 
 import com.orekhov.webfluxsecurity.entity.UserEntity;
 import com.orekhov.webfluxsecurity.exception.AuthenticationException;
-import com.orekhov.webfluxsecurity.repository.UserRepository;
+import com.orekhov.webfluxsecurity.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class SecurityService {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     @Value("${jwt.secret}")
     private String secret;
@@ -59,7 +59,7 @@ public class SecurityService {
     }
 
     public Mono<TokenDetails> authenticate(String username, String password) {
-        return userRepository.findByUsername(username)
+        return userService.getUserByUsername(username)
                 .flatMap(user -> {
                     if (!user.isEnabled()) {
                         return Mono.error(new AuthenticationException("Account disabled", "OREKHOFF_USER_ACCOUNT_DISABLED"));
